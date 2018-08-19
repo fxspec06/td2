@@ -1,0 +1,96 @@
+#leodarts, #leodarts1, #leodarts2 {
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    
+    /* Full height */
+    height: 100%;
+    width: 100%;
+    
+    /*object-fit: cover;*/
+}
+
+#leodartsDiv {
+    height: 100%;
+    width: 100%;
+    position: relative;
+    background-image: url('tiled.png');
+    background-repeat: repeat;
+}
+
+#trumpdarts, #tapzoneDiv {
+    left: 5%;
+    width: 90%;
+    top: 5%;
+    height: 90%;
+    border: 5px solid #CCCCCC;
+    border-radius: 25px;
+    -webkit-border-radius: 25px;
+    position: fixed;
+}
+.dart {
+	width: 240px;
+	height: 190px;
+	position:fixed;
+	visibility: hidden;
+}
+#admob {
+	width:100%;
+	vertical-align: bottom;
+	height:200px;
+	position:absolute;
+	z-index: 99999999;
+	background-color: #FFF;
+}
+#score {
+	
+}
+#round {
+	
+}
+.leotext {
+	text-align: center;
+    color: #fff;
+	font-size: 72px;
+	font-weight: 900;
+}
+#again {
+	visibility: hidden;
+	width: 100%;
+	height: 66px;
+	position: absolute;
+	top: 35%;
+	left: 0;
+    text-align: center;
+	/*background-image: url("again.png");*/
+    color: #fff;
+    font-size: 72px;
+    font-weight: bolder;
+}
+#wildn {
+	visibility: hidden;
+	width: 64px;
+	height: 64px;
+	position: absolute;
+	top: 600px;
+	left: 220px;
+	background-image: url("wildn.png");
+}
+#clearview {
+	visibility: hidden;
+	width: 64px;
+	height: 64px;
+	position: absolute;
+	top: 540px;
+	left: 760px;
+	background-image: url("clearview.png");
+}
+#killedLeo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 99999;
+}

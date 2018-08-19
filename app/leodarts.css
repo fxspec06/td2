@@ -1,0 +1,58 @@
+#leodarts {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	left: 0;
+	top: 0;
+}
+.dart {
+	width: 240px;
+	height: 190px;
+	position:fixed;
+	visibility: hidden;
+}
+#score {
+	top: 550px;
+}
+#round {
+	top: 250px;
+}
+.leotext {
+	width: 100%;
+	height: 400px;
+	text-align:center;
+	position: fixed;
+	visibility: hidden;
+	left: 0;
+	
+	color: red;
+	font-size: 90px;
+	font-weight: 900;
+}
+#again {
+	visibility: hidden;
+	width: 377px;
+	height: 66px;
+	position: absolute;
+	top: 361px;
+	left: 642px;
+	background-image: url("../again.png");
+}
+#wildn {
+	visibility: hidden;
+	width: 64px;
+	height: 64px;
+	position: absolute;
+	top: 600px;
+	left: 220px;
+	background-image: url("../wildn.png");
+}
+#clearview {
+	visibility: hidden;
+	width: 64px;
+	height: 64px;
+	position: absolute;
+	top: 540px;
+	left: 760px;
+	background-image: url("../clearview.png");
+}

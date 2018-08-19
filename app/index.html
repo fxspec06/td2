@@ -1,0 +1,178 @@
+<!--
+ Copyright 2011 fxspec06 (Bryan Leasot)
+ Not for distribution
+ Use of Villo appliccable to the appropriate licenses
+ -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Leo Darts 2!</title>
+        <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, user-scalable=no" />
+        <link href="cards.css" media="screen" rel="stylesheet" type="text/css">
+        <link href="stylesheets/leodarts.css" media="screen" rel="stylesheet" type="text/css">
+    </head>
+    <body width=100% height=100% onload="loadGame()" style="z-index:100;">
+        
+        <script>
+            
+            
+            function StageAssistant() {
+            }
+        
+        StageAssistant.prototype.setup = function() {
+            numLeos = 17;
+            leoImageArray = [];
+            for(var x = 0; x < numLeos; x++){
+                leoImageArray[x] = x + 1;
+            }
+            fisherYates(leoImageArray);
+            
+            
+            leoImage = 1;
+            
+            dart = 1;
+            totalScore = 0;
+            
+            
+            Mojo.Controller.stageController.pushScene("leodarts");
+        };
+        function randomInt(min, max) { //returns a random integer value with min max arguments
+            return Math.floor(Math.random() * ( max - min + 1)) + min;
+        };
+        function fisherYates ( myArray ) {
+            var i = myArray.length;
+            if ( i == 0 ) return false;
+            while ( --i ) {
+                var j = Math.floor( Math.random() * ( i + 1 ) );
+                var tempi = myArray[i];
+                var tempj = myArray[j];
+                myArray[i] = tempj;
+                myArray[j] = tempi;
+            }
+        }
+
+            
+            function LeodartsAssistant() {
+            }
+        
+        LeodartsAssistant.prototype.setup = function() {
+            if(leoImage > numLeos){
+                this.killedLeo();
+                return;
+            }
+            scoreTimeout = 0;
+            roundTimeout = 0;
+            round = 0;
+            
+            
+            
+            $("leodartsDiv").innerHTML = '<img id="leodarts" src="leo' + leoImageArray[leoImage - 1] + '.jpg">';
+            this.controller.listen($("leodarts"), Mojo.Event.tap, this.throwDart.bind(this));
+            //this.controller.listen(this.leoHit, "ended", this.ended_.bind(this), false);
+        };
+        LeodartsAssistant.prototype.throwDart = function(event) {
+            
+            $("dart").play();
+            
+            //Mojo.Log.info("tap down at x: " + event.down.x + " y: " + event.down.y);
+            var tapXcoor = event.down.x - 114;
+            var tapYcoor = event.down.y - 169;
+            
+            var dartImg = $("dart" + dart);
+            dartImg.style.left = tapXcoor + "px";
+            dartImg.style.top = tapYcoor + "px";
+            dartImg.style.visibility = "visible";
+            
+            //var score = this.calculateScore(leoImage, tapXcoor, tapYcoor);
+            
+            var score = randomInt(0, 20);
+            score = score * 5;
+            round = round + score;
+            totalScore = totalScore + score;
+            
+            $("score").innerHTML = score + " POINTS!";
+            $("score").style.visibility = "visible";
+            if(scoreTimeout){clearTimeout(scoreTimeout)};
+            scoreTimeout = window.setTimeout(function(){
+                                             $("score").style.visibility = "hidden";
+                                             scoreTimeout = 0;
+                                             }, 1000);
+                                             
+                                             dart++;
+                                             if(dart == 4){
+                                                 this.controller.stopListening($("leodarts"), Mojo.Event.tap, this.throwDart.bind(this));
+                                                 $("round").innerHTML = "THIS ROUND:<BR>" + round + " POINTS!";
+                                                 $("round").style.visibility = "visible";
+                                                 roundTimeout = window.setTimeout(function() {
+                                                                                  leoImage++;
+                                                                                  dart = 1;
+                                                                                  Mojo.Controller.stageController.swapScene("leodarts");
+                                                                                  roundTimeout = 0;
+                                                                                  }, 1000);
+                                             }
+        };
+        LeodartsAssistant.prototype.killedLeo = function(){
+            leoImage = 0;
+            $("leodartsDiv").innerHTML = '<img id="leodarts" src="leo' + leoImage + '.jpg">';
+            $("round").innerHTML = totalScore + " POINTS!";
+            $("round").style.visibility = "visible";
+            
+            $("again").style.visibility = "visible";
+            $("wildn").style.visibility = "visible";
+            $("clearview").style.visibility = "visible";
+            
+            this.controller.listen($("wildn"), Mojo.Event.tap, this.wildn.bind(this));
+            this.controller.listen($("again"), Mojo.Event.tap, this.again.bind(this));
+            this.controller.listen($("clearview"), Mojo.Event.tap, this.clearview.bind(this));
+        };
+        LeodartsAssistant.prototype.again = function(event){
+            totalScore = 0;
+            leoImage++;
+            
+            fisherYates(leoImageArray);
+            
+            Mojo.Controller.stageController.swapScene("leodarts");
+        };
+        LeodartsAssistant.prototype.wildn = function(event) {
+            new Mojo.Service.Request('palm://com.palm.applicationManager', {
+                                     method : "open",
+                                     parameters : {
+                                     target : 'http://developer.palm.com/appredirect/?packageid=com.fxspec.wildnpokerhd'
+                                     }
+                                     });
+        };
+        LeodartsAssistant.prototype.clearview = function(event) {
+            new Mojo.Service.Request('palm://com.palm.applicationManager', {
+                                     method : "open",
+                                     parameters : {
+                                     target : 'http://developer.palm.com/appredirect/?packageid=com.fxspec.clearview'
+                                     }
+                                     });
+        };
+
+            
+            
+            
+            
+            
+
+        
+        
+        
+        
+        
+        <audio id="dart" src="dart.wav" preload="auto"></audio>
+        <div id="leodartsDiv"></div>
+        <img alt="" class="dart" id="dart1" src="dart1a.png">
+            <img alt="" class="dart" id="dart2" src="dart2a.png">
+                <img alt="" class="dart" id="dart3" src="dart3a.png">
+                    <div class="leotext" id="score"></div>
+                    <div class="leotext" id="round"></div>
+                    <div id="killedLeo">
+                        <div id="wildn"></div>
+                        <div id="clearview"></div>
+                        <div id="again"></div>
+                    </div>
+    </body>
+</html>
+
