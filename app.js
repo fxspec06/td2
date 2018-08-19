@@ -203,7 +203,7 @@ function nextTarget() {
         document.body.appendChild(img);
         
         
-        setTimeout(zonePercentageToPixels.bind(this, zone.x, zone.y, img, z, hitZone), 100, zone.x, zone.y, img, z, hitZone);
+        setTimeout(zonePercentageToPixels.bind(this, zone.x, zone.y, img, z, hitZone), 1000, zone.x, zone.y, img, z, hitZone);
         
         
     }
